@@ -19,7 +19,7 @@ public class PackageController {
 
     private final PackageService packageService;
 
-    @GetMapping("/api/v1/destination/q")
+    @GetMapping("/destination")
     public ResponseEntity<List<PackageResponseDto>> byDestination(
             @RequestParam (value = "destination") String destination
     ) {

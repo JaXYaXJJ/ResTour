@@ -2,7 +2,6 @@ package edu.hackeru.evgenyzakalinsky.restour.service;
 
 import edu.hackeru.evgenyzakalinsky.restour.dto.PackageRequestDto;
 import edu.hackeru.evgenyzakalinsky.restour.dto.PackageResponseDto;
-import edu.hackeru.evgenyzakalinsky.restour.entity.Package;
 
 import java.util.List;
 
