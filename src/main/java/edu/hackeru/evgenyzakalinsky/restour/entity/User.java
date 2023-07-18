@@ -31,6 +31,8 @@ public class User {
     @Column(name = "date")
     private Date dob;
     @NotNull
+    private String phone;
+    @NotNull
     private String email;
     @NotNull
     private String password;

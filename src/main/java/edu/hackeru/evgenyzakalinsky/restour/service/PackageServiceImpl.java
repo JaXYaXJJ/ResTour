@@ -19,15 +19,6 @@ public class PackageServiceImpl implements PackageService {
     private final PackageRepository packageRepository;
 
     @Override
-    public List<PackageResponseDto> getPackageByDestination(String destination) {
-        return packageRepository
-                .findPackageByDestinationIgnoreCase(destination)
-                .stream()
-                .map(p -> modelMapper.map(p, PackageResponseDto.class))
-                .toList();
-    }
-
-    @Override
     public PackageResponseDto createPackage(PackageRequestDto packageRequestDto) {
 
         var entity = modelMapper.map(packageRequestDto, Package.class);
@@ -40,6 +31,15 @@ public class PackageServiceImpl implements PackageService {
 
         return packageRepository
                 .findAll()
+                .stream()
+                .map(p -> modelMapper.map(p, PackageResponseDto.class))
+                .toList();
+    }
+
+    @Override
+    public List<PackageResponseDto> getPackageByDestination(String destination) {
+        return packageRepository
+                .findPackageByDestinationIgnoreCase(destination)
                 .stream()
                 .map(p -> modelMapper.map(p, PackageResponseDto.class))
                 .toList();
@@ -69,7 +69,9 @@ public class PackageServiceImpl implements PackageService {
         packageFromDb.setTitle(dto.getTitle());
         packageFromDb.setDestination(dto.getDestination());
         packageFromDb.setDescription(dto.getDescription());
-        packageFromDb.setContent(dto.getContent());
+        packageFromDb.setTourRoute(dto.getTourRoute());
+        packageFromDb.setGroupLimit(dto.getGroupLimit());
+        packageFromDb.setGroupCurrent(dto.getGroupCurrent());
         packageFromDb.setAvailableDate(dto.getAvailableDate());
         packageFromDb.setPrice(dto.getPrice());
 

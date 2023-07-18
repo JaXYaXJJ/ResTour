@@ -21,8 +21,9 @@ public class PackageRequestDto {
     @NotNull
     private String description;
     @NotNull
-    private String content;
+    private String tourRoute;
+    private int groupLimit;
+    private int groupCurrent;
     private Date availableDate;
-    @NotNull
     private int price;
 }

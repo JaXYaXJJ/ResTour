@@ -13,25 +13,20 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/packages")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/packages")
 public class PackageController {
 
     private final PackageService packageService;
 
-    @GetMapping("/destination")
-    public ResponseEntity<List<PackageResponseDto>> byDestination(
-            @RequestParam (value = "destination") String destination
-    ) {
-        return ResponseEntity.ok(
-                packageService.getPackageByDestination(destination));
-    }
-
     @PostMapping
     public ResponseEntity<PackageResponseDto> createPackage(
-            @RequestBody @Valid PackageRequestDto dto, UriComponentsBuilder uriBuilder
+            @RequestBody @Valid PackageRequestDto dto,
+            UriComponentsBuilder uriBuilder
     ) {
-        var saved = packageService.createPackage(dto);
+        var saved = packageService.createPackage(
+                dto
+        );
         var uri = uriBuilder
                 .path("/api/v1/packages/{id}")
                 .buildAndExpand(saved.getId())
@@ -48,17 +43,27 @@ public class PackageController {
         return ResponseEntity.ok(packageService.getAllPackages());
     }
 
+    @GetMapping("/destination")
+    public ResponseEntity<List<PackageResponseDto>> getPackageByDestination(
+            @RequestParam (value = "destination") String destination
+    ) {
+        return ResponseEntity.ok(
+                packageService.getPackageByDestination(destination));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<PackageResponseDto> getPackageById(
-            @Valid @NotNull @PathVariable long id) {
+            @Valid @PathVariable long id
+    ) {
 
         return ResponseEntity.ok(packageService.getPackageById(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<PackageResponseDto> updatePackageById(
-            @Valid @NotNull @PathVariable long id,
-            @Valid @RequestBody PackageRequestDto dto) {
+            @Valid @PathVariable long id,
+            @Valid @RequestBody PackageRequestDto dto
+    ) {
 
         return ResponseEntity.ok(packageService.updatePackageById(dto, id));
     }
