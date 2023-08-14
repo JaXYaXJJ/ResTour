@@ -6,9 +6,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Getter
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class BadRequestException extends RuntimeException {
+public class BadRequestException extends PackageException {
 
     private final String packageName;
+
     public BadRequestException(String packageName) {
         super("%s was invalid".formatted(packageName));
         this.packageName = packageName;

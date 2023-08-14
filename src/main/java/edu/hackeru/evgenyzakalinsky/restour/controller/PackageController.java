@@ -4,9 +4,9 @@ import edu.hackeru.evgenyzakalinsky.restour.dto.PackageRequestDto;
 import edu.hackeru.evgenyzakalinsky.restour.dto.PackageResponseDto;
 import edu.hackeru.evgenyzakalinsky.restour.service.PackageService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -20,6 +20,7 @@ public class PackageController {
     private final PackageService packageService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PackageResponseDto> createPackage(
             @RequestBody @Valid PackageRequestDto dto,
             UriComponentsBuilder uriBuilder
@@ -70,7 +71,7 @@ public class PackageController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<PackageResponseDto> deletePackageById(
-            @Valid @NotNull @PathVariable long id) {
+            @Valid @PathVariable long id) {
 
         return ResponseEntity.ok(packageService.deletePackageById(id));
     }

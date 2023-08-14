@@ -10,4 +10,5 @@ public interface CommentService {
     CommentResponseDto createComment(long packageId, CommentRequestDto dto);
     List<CommentResponseDto> getCommentsByPackageId(long packageId);
     CommentResponseDto updateComment(long commentId, CommentRequestDto dto);
+    CommentResponseDto deleteComment(long commentId);
 }

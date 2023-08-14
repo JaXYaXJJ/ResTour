@@ -1,9 +1,9 @@
 ###create a new package:
 POST http://localhost:8080/api/v1/packages
 Content-Type: application/json
+Authorization: Basic admin admin
 
 {
-  "title": "Greenland",
   "destination": "Nuuk",
   "description": "Nordic Trip",
   "content": "Cold, Very Cold",
@@ -13,12 +13,13 @@ Content-Type: application/json
 
 ###get all packages:
 GET http://localhost:8080/api/v1/packages
+Authorization: Basic kurt@doe.com 123456!
 
 ###find package by destination:
 GET http://localhost:8080/api/v1/packages/destination?destination=nairobi
 
 ###get package by id:
-GET http://localhost:8080/api/v1/packages/1
+GET http://localhost:8080/api/v1/packages/3
 
 ###update a post:
 PUT http://localhost:8080/api/v1/packages/1952
@@ -28,7 +29,8 @@ Content-Type: application/json
   "title": "Greenland",
   "destination": "Nuuk",
   "description": "Steep mountains, deep fjords and giant icebergs",
-  "content": "Greenland is an island autonomous territory of Denmark in North America. It lies between the Arctic and Atlantic oceans, east of the Canadian Arctic...",
+  "tourRoute": "Greenland is an island autonomous territory of Denmark in North America. It lies between the Arctic and Atlantic oceans, east of the Canadian Arctic...",
+  "groupLimit": 10,
   "price": 4099,
   "availableDate": "2024-03-10"
 }

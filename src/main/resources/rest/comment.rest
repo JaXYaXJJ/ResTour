@@ -10,10 +10,12 @@ Content-Type: application/json
 GET http://localhost:8080/api/v1/packages/1/comments
 
 ###update commnet by commentId:
-
 PUT http://localhost:8080/api/v1/comments/1
 Content-Type: application/json
 
 {
   "comment": "So Brilliant!"
 }
+
+###delete comment by id:
+DELETE http://localhost:8080/api/v1/comments/2

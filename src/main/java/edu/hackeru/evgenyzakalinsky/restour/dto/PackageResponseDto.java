@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -22,4 +23,6 @@ public class PackageResponseDto {
     private int groupCurrent;
     private Date availableDate;
     private int price;
+
+    List<PackageWithCommentsDto> comments;
 }

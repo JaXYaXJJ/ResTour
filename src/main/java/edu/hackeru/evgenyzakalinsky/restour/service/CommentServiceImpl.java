@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.lang.module.ResolutionException;
 import java.util.List;
 
 @Service
@@ -63,5 +62,19 @@ public class CommentServiceImpl implements CommentService {
         var saved = commentRepository.save(commentFromDb);
 
         return modelMapper.map(saved, CommentResponseDto.class);
+    }
+
+    @Override
+    public CommentResponseDto deleteComment(long commentId) {
+
+        var deletedComment = commentRepository
+                .findById(commentId)
+                .orElseThrow(() -> new PackageNotFoundException(
+                        "Comment", commentId
+                ));
+
+        commentRepository.deleteById(commentId);
+
+        return modelMapper.map(deletedComment, CommentResponseDto.class);
     }
 }
