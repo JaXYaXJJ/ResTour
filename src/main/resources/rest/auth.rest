@@ -3,10 +3,31 @@ POST http://localhost:8080/api/v1/auth/signup
 Content-Type: application/json
 
 {
-  "firstName": "Kurt",
+  "firstName": "Lisa",
   "lastName": "Doe",
   "phone": "054",
-  "email": "kurt3@doe.com",
-  "password": "123456!",
-  "dob": "2000-10-10"
+  "email": "lisa@mail.com",
+  "password": "Lisa123!",
+  "dob": "2002-01-26"
 }
+
+###sign a user in:
+POST http://localhost:8080/api/v1/auth/signin
+Content-Type: application/json
+
+{
+  "email": "mike10@lee.com",
+  "password": "Password!1"
+}
+
+###get all posts:
+GET http://localhost:8080/api/v1/packages
+Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaWtlMTBAbGVlLmNvbSIsImlhdCI6MTY5MjI5ODE5NiwiZXhwIjoxNjk0ODkwMTk2fQ._fXoOMf98iCTm7XU0EbNCUsjGlp0wojkeqqvkm5kGvFFnsTb4qyFGbBAc51EpcLpq4rRiYvD5-vyap_YmXEn2Q
+
+###get all posts:
+GET http://localhost:8080/api/v1/packages
+Authorization: Basic mike10@lee.com Password!1
+
+###delete a user:
+DELETE http://localhost:8080/api/v1/auth/delete/355
+Authorization: Basic admin@admin.com Admin!123

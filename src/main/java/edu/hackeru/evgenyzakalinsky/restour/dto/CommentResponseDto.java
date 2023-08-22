@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class CommentResponseDto {
 
     private long id;
+    private SignUpResponseDto signUpUser;
     private String comment;
 }

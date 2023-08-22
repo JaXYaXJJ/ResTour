@@ -76,7 +76,6 @@ public class PackageServiceImpl implements PackageService {
         packageFromDb.setPrice(dto.getPrice());
 
         var saved = packageRepository.save(packageFromDb);
-
         return modelMapper.map(saved, PackageResponseDto.class);
     }
 

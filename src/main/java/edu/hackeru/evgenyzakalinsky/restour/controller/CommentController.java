@@ -5,6 +5,7 @@ import edu.hackeru.evgenyzakalinsky.restour.dto.CommentResponseDto;
 import edu.hackeru.evgenyzakalinsky.restour.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -21,10 +22,11 @@ public class CommentController {
     public ResponseEntity<CommentResponseDto> createComment(
             @PathVariable(name = "id") long packageId,
             @RequestBody CommentRequestDto dto,
-            UriComponentsBuilder uriBuilder
+            UriComponentsBuilder uriBuilder,
+            Authentication authentication
             ) {
         var saved = commentService.createComment(
-                packageId, dto
+                packageId, dto, authentication
         );
         var uri = uriBuilder
                 .path("/api/v1/packages/{id}/{comment_id")

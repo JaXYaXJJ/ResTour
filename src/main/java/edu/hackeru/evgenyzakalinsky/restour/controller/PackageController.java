@@ -56,7 +56,6 @@ public class PackageController {
     public ResponseEntity<PackageResponseDto> getPackageById(
             @Valid @PathVariable long id
     ) {
-
         return ResponseEntity.ok(packageService.getPackageById(id));
     }
 
@@ -65,14 +64,13 @@ public class PackageController {
             @Valid @PathVariable long id,
             @Valid @RequestBody PackageRequestDto dto
     ) {
-
         return ResponseEntity.ok(packageService.updatePackageById(dto, id));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<PackageResponseDto> deletePackageById(
-            @Valid @PathVariable long id) {
-
+            @Valid @PathVariable long id
+    ) {
         return ResponseEntity.ok(packageService.deletePackageById(id));
     }
 

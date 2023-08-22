@@ -1,14 +1,15 @@
 ###create a new package:
 POST http://localhost:8080/api/v1/packages
 Content-Type: application/json
-Authorization: Basic admin admin
+Authorization: Basic admin@admin.com Admin!123
 
 {
-  "destination": "Nuuk",
-  "description": "Nordic Trip",
-  "content": "Cold, Very Cold",
-  "price": 1299,
-  "availableDate": "2024-03-15"
+  "title": "Admin test title",
+  "destination": "Admin test dest",
+  "description": "Admin test trip",
+  "tourRoute": "Admin test route",
+  "availableDate": "2023-08-22",
+  "price": 1000
 }
 
 ###get all packages:
@@ -35,5 +36,6 @@ Content-Type: application/json
   "availableDate": "2024-03-10"
 }
 
-###delete package by id
-DELETE http://localhost:8080/api/v1/packages/1102
+###delete package by id:
+DELETE http://localhost:8080/api/v1/packages/1952
+Authorization: Basic admin@admin.com Admin!123

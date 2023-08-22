@@ -6,8 +6,10 @@ import edu.hackeru.evgenyzakalinsky.restour.entity.Comment;
 import edu.hackeru.evgenyzakalinsky.restour.error.PackageNotFoundException;
 import edu.hackeru.evgenyzakalinsky.restour.repository.CommentRepository;
 import edu.hackeru.evgenyzakalinsky.restour.repository.PackageRepository;
+import edu.hackeru.evgenyzakalinsky.restour.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,10 +20,11 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final PackageRepository packageRepository;
+    private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
     @Override
-    public CommentResponseDto createComment(long packageId, CommentRequestDto dto) {
+    public CommentResponseDto createComment(long packageId, CommentRequestDto dto, Authentication authentication) {
 
         var pack = packageRepository
                 .findById(packageId)
@@ -29,8 +32,10 @@ public class CommentServiceImpl implements CommentService {
                         () -> new PackageNotFoundException("Package", packageId)
                 );
 
+        var user = userRepository.findByEmailIgnoreCase(authentication.getName()).orElseThrow();
         var comment = modelMapper.map(dto, Comment.class);
         comment.setPack(pack);
+        comment.setUser(user);
 
         var saved = commentRepository.save(comment);
 

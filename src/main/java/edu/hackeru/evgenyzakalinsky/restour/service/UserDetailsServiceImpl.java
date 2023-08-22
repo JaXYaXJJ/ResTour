@@ -18,6 +18,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -50,27 +52,34 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                dto.getPhone(),
                dto.getEmail(),
                passwordEncoder.encode(dto.getPassword().trim()),
+               List.of(),
                Set.of(userRole)
        );
 
         var savedUser = userRepository.save(user);
-
         return modelMapper.map(savedUser, SignUpResponseDto.class);
     }
 
     @Override
-    public UserDetails loadUserByUsername(String lastName) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         var user = userRepository
-                .findByLastNameIgnoreCase(lastName)
-                .orElseThrow(() -> new UsernameNotFoundException(lastName));
+                .findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new UsernameNotFoundException(email));
 
         var roles = user.getRoles().stream()
                 .map(r -> new SimpleGrantedAuthority(r.getRoleName()))
                 .toList();
 
         return new org.springframework.security.core.userdetails.User(
-                user.getLastName(), user.getPassword(), roles
+                user.getEmail(), user.getPassword(), roles
         );
+    }
+
+    public SignUpResponseDto deleteUser(long id) {
+
+        Optional<User> deletedUser = userRepository.findById(id);
+        userRepository.deleteById(id);
+        return modelMapper.map(deletedUser, SignUpResponseDto.class);
     }
 }
