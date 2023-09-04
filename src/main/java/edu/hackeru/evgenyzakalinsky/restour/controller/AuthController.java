@@ -30,7 +30,6 @@ public class AuthController {
             @RequestBody @Valid SignUpRequestDto dto
     ) {
         val response = authService.signUp(dto);
-
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -46,7 +45,6 @@ public class AuthController {
         if (passwordEncoder.matches(givenPass, savedPass)) {
 
             var token = jwtProvider.generateToken(user.getUsername());
-
             return ResponseEntity.ok(Map.of("jwt", token));
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

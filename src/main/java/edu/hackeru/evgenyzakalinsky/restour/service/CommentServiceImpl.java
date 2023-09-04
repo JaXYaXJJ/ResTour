@@ -3,10 +3,13 @@ package edu.hackeru.evgenyzakalinsky.restour.service;
 import edu.hackeru.evgenyzakalinsky.restour.dto.CommentRequestDto;
 import edu.hackeru.evgenyzakalinsky.restour.dto.CommentResponseDto;
 import edu.hackeru.evgenyzakalinsky.restour.entity.Comment;
+import edu.hackeru.evgenyzakalinsky.restour.error.BadRequestException;
 import edu.hackeru.evgenyzakalinsky.restour.error.PackageNotFoundException;
 import edu.hackeru.evgenyzakalinsky.restour.repository.CommentRepository;
 import edu.hackeru.evgenyzakalinsky.restour.repository.PackageRepository;
+import edu.hackeru.evgenyzakalinsky.restour.repository.RoleRepository;
 import edu.hackeru.evgenyzakalinsky.restour.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
@@ -22,6 +25,7 @@ public class CommentServiceImpl implements CommentService {
     private final PackageRepository packageRepository;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final RoleRepository roleRepository;
 
     @Override
     public CommentResponseDto createComment(long packageId, CommentRequestDto dto, Authentication authentication) {
@@ -38,7 +42,6 @@ public class CommentServiceImpl implements CommentService {
         comment.setUser(user);
 
         var saved = commentRepository.save(comment);
-
         return modelMapper.map(saved, CommentResponseDto.class);
     }
 
@@ -54,7 +57,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentResponseDto updateComment(long commentId, CommentRequestDto dto) {
+    @Transactional
+    public CommentResponseDto updateComment(long commentId, CommentRequestDto dto, Authentication authentication) {
 
         var commentFromDb = commentRepository
                 .findById(commentId)
@@ -62,15 +66,28 @@ public class CommentServiceImpl implements CommentService {
                         "Comment", commentId
                 ));
 
+        userHasPermissionToEditComment(authentication, commentFromDb);
+
         commentFromDb.setComment(dto.getComment());
 
         var saved = commentRepository.save(commentFromDb);
-
         return modelMapper.map(saved, CommentResponseDto.class);
     }
 
+    private void userHasPermissionToEditComment(Authentication authentication, Comment commentFromDb) {
+        var user = commentFromDb.getUser();
+
+        var adminRole = roleRepository.findByRoleNameIgnoreCase("ROLE_ADMIN").orElseThrow();
+
+        if (!user.getRoles().contains(adminRole)
+                && !user.getEmail().equalsIgnoreCase(authentication.getName())) {
+            throw new BadRequestException("user", "Comment must belong the editing  user");
+        }
+    }
+
     @Override
-    public CommentResponseDto deleteComment(long commentId) {
+    @Transactional
+    public CommentResponseDto deleteComment(long commentId, Authentication authentication) {
 
         var deletedComment = commentRepository
                 .findById(commentId)
@@ -78,8 +95,20 @@ public class CommentServiceImpl implements CommentService {
                         "Comment", commentId
                 ));
 
-        commentRepository.deleteById(commentId);
+        userHasPermissionToEditComment(authentication, deletedComment);
 
+        commentRepository.deleteById(commentId);
         return modelMapper.map(deletedComment, CommentResponseDto.class);
+    }
+
+    @Override
+    public List<CommentResponseDto> getCommentByUserEmail(String userEmail) {
+
+        var comments = commentRepository.findCommentsByUserEmail(userEmail);
+
+        return comments
+                .stream()
+                .map(c -> modelMapper.map(c, CommentResponseDto.class))
+                .toList();
     }
 }

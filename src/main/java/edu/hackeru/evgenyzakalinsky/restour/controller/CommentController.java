@@ -30,7 +30,7 @@ public class CommentController {
         );
         var uri = uriBuilder
                 .path("/api/v1/packages/{id}/{comment_id")
-                .buildAndExpand(saved.getId())
+                .buildAndExpand(packageId, saved.getId())
                 .toUri();
 
         return ResponseEntity
@@ -39,27 +39,33 @@ public class CommentController {
     }
 
     @GetMapping("packages/{id}/comments")
-    public  ResponseEntity<List<CommentResponseDto>> getCommentsByPackageId(
+    public ResponseEntity<List<CommentResponseDto>> getCommentsByPackageId(
             @PathVariable(name = "id") long packageId
     ) {
-
         return ResponseEntity.ok(commentService.getCommentsByPackageId(packageId));
     }
 
     @PutMapping("/comments/{id}")
-    public  ResponseEntity<CommentResponseDto> updateCommentById(
+    public ResponseEntity<CommentResponseDto> updateCommentById(
             @PathVariable(name = "id") long commentId,
-            @RequestBody CommentRequestDto dto
+            @RequestBody CommentRequestDto dto,
+            Authentication authentication
     ) {
-
-        return ResponseEntity.ok(commentService.updateComment(commentId, dto));
+        return ResponseEntity.ok(commentService.updateComment(commentId, dto, authentication));
     }
 
     @DeleteMapping("/comments/{id}")
     public ResponseEntity<CommentResponseDto> deleteCommentById(
-            @PathVariable(name = "id") long commentId
+            @PathVariable(name = "id") long commentId,
+            Authentication authentication
     ) {
+        return ResponseEntity.ok(commentService.deleteComment(commentId, authentication));
+    }
 
-        return ResponseEntity.ok(commentService.deleteComment(commentId));
+    @GetMapping("{user}/comments")
+    public ResponseEntity<List<CommentResponseDto>> getCommentByUser(
+            @PathVariable(name = "user") String userEmail
+    ) {
+        return ResponseEntity.ok(commentService.getCommentByUserEmail(userEmail));
     }
 }

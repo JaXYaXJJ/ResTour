@@ -40,7 +40,6 @@ public class PackageController {
 
     @GetMapping
     public ResponseEntity<List<PackageResponseDto>> getAllPackages() {
-
         return ResponseEntity.ok(packageService.getAllPackages());
     }
 
@@ -60,6 +59,7 @@ public class PackageController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PackageResponseDto> updatePackageById(
             @Valid @PathVariable long id,
             @Valid @RequestBody PackageRequestDto dto
@@ -68,10 +68,10 @@ public class PackageController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PackageResponseDto> deletePackageById(
             @Valid @PathVariable long id
     ) {
         return ResponseEntity.ok(packageService.deletePackageById(id));
     }
-
 }

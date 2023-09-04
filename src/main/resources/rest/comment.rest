@@ -1,13 +1,15 @@
 ###add comment to package:
-POST http://localhost:8080/api/v1/packages/1/comments
+POST http://localhost:8080/api/v1/packages/152/comments
 Content-Type: application/json
+Authorization: Basic mike@mail.com Mike123!
 
 {
-  "comment": "Awesome!"
+  "comment": "Mike comment#2"
 }
 
 ###get all comments by packageId:
-GET http://localhost:8080/api/v1/packages/1/comments
+GET http://localhost:8080/api/v1/packages/152/comments
+Authorization: Basic admin@admin.com Admin!123
 
 ###update commnet by commentId:
 PUT http://localhost:8080/api/v1/comments/1
@@ -18,4 +20,9 @@ Content-Type: application/json
 }
 
 ###delete comment by id:
-DELETE http://localhost:8080/api/v1/comments/2
+DELETE http://localhost:8080/api/v1/comments/302
+Authorization: Basic lisa@mail.com Lisa123!
+
+###get all comments by userEmail:
+GET http://localhost:8080/api/v1/mike@mail.com/comments
+Authorization: Basic admin@admin.com Admin!123
