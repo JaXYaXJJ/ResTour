@@ -20,7 +20,8 @@ Authorization: Basic kurt@doe.com 123456!
 GET http://localhost:8080/api/v1/packages/destination?destination=nairobi
 
 ###get package by id:
-GET http://localhost:8080/api/v1/packages/3
+GET http://localhost:8080/api/v1/packages/152
+Authorization: Basic lisa@mail.com Lisa123!
 
 ###update a post:
 PUT http://localhost:8080/api/v1/packages/1952

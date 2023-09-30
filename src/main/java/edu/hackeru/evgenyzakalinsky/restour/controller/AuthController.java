@@ -1,10 +1,12 @@
 package edu.hackeru.evgenyzakalinsky.restour.controller;
 
 import edu.hackeru.evgenyzakalinsky.restour.dto.SignInRequestDto;
+import edu.hackeru.evgenyzakalinsky.restour.dto.SignInResponseDto;
 import edu.hackeru.evgenyzakalinsky.restour.dto.SignUpRequestDto;
 import edu.hackeru.evgenyzakalinsky.restour.dto.SignUpResponseDto;
 import edu.hackeru.evgenyzakalinsky.restour.security.JWTProvider;
 import edu.hackeru.evgenyzakalinsky.restour.service.UserDetailsServiceImpl;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -34,7 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<Object> signIn(
+    public ResponseEntity<SignInResponseDto> signIn(
             @RequestBody @Valid SignInRequestDto dto
     ) {
         var user = authService.loadUserByUsername(dto.getEmail());
@@ -45,15 +47,18 @@ public class AuthController {
         if (passwordEncoder.matches(givenPass, savedPass)) {
 
             var token = jwtProvider.generateToken(user.getUsername());
-            return ResponseEntity.ok(Map.of("jwt", token));
+            return ResponseEntity.ok(new SignInResponseDto(token));
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<SignUpResponseDto> deleteUserById(
-            @PathVariable long id
+            @Valid @PathVariable long id
     ) {
         return ResponseEntity.ok(authService.deleteUser(id));
     }

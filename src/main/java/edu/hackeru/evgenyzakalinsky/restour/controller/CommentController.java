@@ -3,6 +3,7 @@ package edu.hackeru.evgenyzakalinsky.restour.controller;
 import edu.hackeru.evgenyzakalinsky.restour.dto.CommentRequestDto;
 import edu.hackeru.evgenyzakalinsky.restour.dto.CommentResponseDto;
 import edu.hackeru.evgenyzakalinsky.restour.service.CommentService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -14,6 +15,9 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1")
+@SecurityRequirement(
+        name = "Bearer Authentication"
+)
 public class CommentController {
 
     private final CommentService commentService;

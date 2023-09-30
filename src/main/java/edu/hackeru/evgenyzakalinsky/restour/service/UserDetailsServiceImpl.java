@@ -5,6 +5,7 @@ import edu.hackeru.evgenyzakalinsky.restour.dto.SignUpResponseDto;
 import edu.hackeru.evgenyzakalinsky.restour.entity.User;
 import edu.hackeru.evgenyzakalinsky.restour.error.BadRequestException;
 import edu.hackeru.evgenyzakalinsky.restour.error.PackageException;
+import edu.hackeru.evgenyzakalinsky.restour.repository.CommentRepository;
 import edu.hackeru.evgenyzakalinsky.restour.repository.RoleRepository;
 import edu.hackeru.evgenyzakalinsky.restour.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -27,6 +28,7 @@ import java.util.Set;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
     private final RoleRepository roleRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
@@ -44,17 +46,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new BadRequestException("email", "Email already exists");
         }
 
-       var user = new User(
-               null,
-               dto.getFirstName(),
-               dto.getLastName(),
-               dto.getDob(),
-               dto.getPhone(),
-               dto.getEmail(),
-               passwordEncoder.encode(dto.getPassword().trim()),
-               List.of(),
-               Set.of(userRole)
-       );
+        var user = new User(
+                null,
+                dto.getFirstName(),
+                dto.getLastName(),
+                dto.getDob(),
+                dto.getPhone(),
+                dto.getEmail(),
+                passwordEncoder.encode(dto.getPassword().trim()),
+                List.of(),
+                Set.of(userRole)
+        );
 
         var savedUser = userRepository.save(user);
         return modelMapper.map(savedUser, SignUpResponseDto.class);
@@ -80,6 +82,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         Optional<User> deletedUser = userRepository.findById(id);
         userRepository.deleteById(id);
+        commentRepository.findCommentsByUserId(id);
         return modelMapper.map(deletedUser, SignUpResponseDto.class);
     }
 }

@@ -3,11 +3,11 @@ POST http://localhost:8080/api/v1/auth/signup
 Content-Type: application/json
 
 {
-  "firstName": "Lisa",
-  "lastName": "Doe",
+  "firstName": "Karl",
+  "lastName": "Karlson",
   "phone": "054",
-  "email": "lisa@mail.com",
-  "password": "Lisa123!",
+  "email": "karl@mail.com",
+  "password": "Karl123!",
   "dob": "2002-01-26"
 }
 
@@ -22,12 +22,12 @@ Content-Type: application/json
 
 ###get all posts:
 GET http://localhost:8080/api/v1/packages
-Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtaWtlMTBAbGVlLmNvbSIsImlhdCI6MTY5MjI5ODE5NiwiZXhwIjoxNjk0ODkwMTk2fQ._fXoOMf98iCTm7XU0EbNCUsjGlp0wojkeqqvkm5kGvFFnsTb4qyFGbBAc51EpcLpq4rRiYvD5-vyap_YmXEn2Q
+Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsaXNhQG1haWwuY29tIiwiaWF0IjoxNjk0NjI0NDQ1LCJleHAiOjE2OTcyMTY0NDV9.9r640oxe8LI9zT-8VsMho1bgbE8XP_AESKsGYAxhtUHoP0Th2jptzf9wnlNvc4qPDMpIjSYYGcjUlCZentWL6g
 
 ###get all posts:
 GET http://localhost:8080/api/v1/packages
-Authorization: Basic mike10@lee.com Password!1
+Authorization: Basic lisa@mail.com Lisa123!
 
 ###delete a user:
-DELETE http://localhost:8080/api/v1/auth/delete/355
+DELETE http://localhost:8080/api/v1/auth/356
 Authorization: Basic admin@admin.com Admin!123
