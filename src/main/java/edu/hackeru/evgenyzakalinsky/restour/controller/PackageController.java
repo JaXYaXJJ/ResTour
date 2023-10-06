@@ -30,7 +30,7 @@ public class PackageController {
 
     private final PackageService packageService;
 
-    @PostMapping
+    @PostMapping("/create_tour")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PackageResponseDto> createPackage(
             @RequestBody @Valid PackageRequestDto dto,

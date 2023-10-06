@@ -1,7 +1,6 @@
 package edu.hackeru.evgenyzakalinsky.restour.controller;
 
 import edu.hackeru.evgenyzakalinsky.restour.dto.SignInRequestDto;
-import edu.hackeru.evgenyzakalinsky.restour.dto.SignInResponseDto;
 import edu.hackeru.evgenyzakalinsky.restour.dto.SignUpRequestDto;
 import edu.hackeru.evgenyzakalinsky.restour.dto.SignUpResponseDto;
 import edu.hackeru.evgenyzakalinsky.restour.security.JWTProvider;
@@ -13,6 +12,7 @@ import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,19 +35,31 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @PostMapping("/signup/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<SignUpResponseDto> signUpAdmin(
+            @RequestBody @Valid SignUpRequestDto dto
+    ) {
+        val response = authService.signUpAdmin(dto);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
     @PostMapping("/signin")
-    public ResponseEntity<SignInResponseDto> signIn(
+    public ResponseEntity<Object> signIn(
             @RequestBody @Valid SignInRequestDto dto
     ) {
         var user = authService.loadUserByUsername(dto.getEmail());
-
         var savedPass = user.getPassword();
         var givenPass = dto.getPassword();
+        val role = user.getAuthorities()
+                .stream()
+                .map(r -> new SimpleGrantedAuthority(r.getAuthority()))
+                .toList();
 
         if (passwordEncoder.matches(givenPass, savedPass)) {
 
             var token = jwtProvider.generateToken(user.getUsername());
-            return ResponseEntity.ok(new SignInResponseDto(token));
+            return ResponseEntity.ok(Map.of("jwt", token, "userRole", role));
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }

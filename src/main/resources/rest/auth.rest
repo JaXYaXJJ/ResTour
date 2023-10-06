@@ -3,12 +3,12 @@ POST http://localhost:8080/api/v1/auth/signup
 Content-Type: application/json
 
 {
-  "firstName": "Karl",
-  "lastName": "Karlson",
+  "firstName": "JJ",
+  "lastName": "Test",
   "phone": "054",
-  "email": "karl@mail.com",
-  "password": "Karl123!",
-  "dob": "2002-01-26"
+  "email": "jj-test@mail.com",
+  "password": "Test123!",
+  "dob": "1990-01-12"
 }
 
 ###sign a user in:
@@ -29,5 +29,5 @@ GET http://localhost:8080/api/v1/packages
 Authorization: Basic lisa@mail.com Lisa123!
 
 ###delete a user:
-DELETE http://localhost:8080/api/v1/auth/356
+DELETE http://localhost:8080/api/v1/auth/702
 Authorization: Basic admin@admin.com Admin!123
