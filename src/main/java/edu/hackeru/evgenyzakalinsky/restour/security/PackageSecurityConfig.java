@@ -56,6 +56,7 @@ public class PackageSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/api/v1/auth/**").permitAll();
+                    auth.requestMatchers("/api/v1/pre-joining/**").permitAll();
                     auth.requestMatchers("/api/v1/**").authenticated();
                     auth.anyRequest().permitAll();
                 })

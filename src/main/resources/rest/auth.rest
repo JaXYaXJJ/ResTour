@@ -3,12 +3,12 @@ POST http://localhost:8080/api/v1/auth/signup
 Content-Type: application/json
 
 {
-  "firstName": "JJ",
-  "lastName": "Test",
-  "phone": "054",
-  "email": "jj-test@mail.com",
+  "firstName": "Eve",
+  "lastName": "Zakalinsky",
+  "phone": "050",
+  "email": "eve@mail.com",
   "password": "Test123!",
-  "dob": "1990-01-12"
+  "dob": "2018-10-24"
 }
 
 ###sign a user in:
@@ -27,6 +27,9 @@ Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsaXNhQG1haWwuY29tIiwiaWF0I
 ###get all posts:
 GET http://localhost:8080/api/v1/packages
 Authorization: Basic lisa@mail.com Lisa123!
+
+###get all users:
+GET http://localhost:8080/api/v1/auth/users
 
 ###delete a user:
 DELETE http://localhost:8080/api/v1/auth/702

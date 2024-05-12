@@ -30,6 +30,7 @@ public class Package {
     @NotNull
     private String description;
     @NotNull
+    @Column(length = 5000)
     private String tourRoute;
     private int groupLimit;
     private int groupCurrent;

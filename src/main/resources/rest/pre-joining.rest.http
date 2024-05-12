@@ -1,0 +1,10 @@
+###create a new pre-joining:
+POST http://localhost:8080/api/v1/pre-joining
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "phone": "050",
+  "email": "john@mail.com",
+  "title": "Upper Mustang"
+}

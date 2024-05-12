@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -102,6 +103,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(), user.getPassword(), roles
         );
+    }
+
+    public List<SignUpResponseDto> getAllUsers() {
+
+        return userRepository
+                .findAll()
+                .stream()
+                .map(u -> modelMapper.map(u, SignUpResponseDto.class))
+                .toList();
     }
 
     public SignUpResponseDto deleteUser(long id) {

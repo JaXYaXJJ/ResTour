@@ -10,8 +10,8 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Builder
+@Entity
 public class Role {
 
     @Id

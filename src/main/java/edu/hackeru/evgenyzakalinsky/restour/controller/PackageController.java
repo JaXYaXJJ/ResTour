@@ -30,7 +30,7 @@ public class PackageController {
 
     private final PackageService packageService;
 
-    @PostMapping("/create_tour")
+    @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PackageResponseDto> createPackage(
             @RequestBody @Valid PackageRequestDto dto,
@@ -98,6 +98,7 @@ public class PackageController {
                     content = @Content
             )
     })
+
     @GetMapping("/{id}")
     public ResponseEntity<PackageResponseDto> getPackageById(
             @Valid @PathVariable @Parameter(description = "ID of package to be searched") long id

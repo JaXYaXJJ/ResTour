@@ -5,6 +5,7 @@ import edu.hackeru.evgenyzakalinsky.restour.dto.SignUpRequestDto;
 import edu.hackeru.evgenyzakalinsky.restour.dto.SignUpResponseDto;
 import edu.hackeru.evgenyzakalinsky.restour.security.JWTProvider;
 import edu.hackeru.evgenyzakalinsky.restour.service.UserDetailsServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -62,6 +64,12 @@ public class AuthController {
             return ResponseEntity.ok(Map.of("jwt", token, "userRole", role));
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @GetMapping("/users")
+    @Operation(summary = "Get all users")
+    public ResponseEntity<List<SignUpResponseDto>> getAllUsers() {
+        return ResponseEntity.ok(authService.getAllUsers());
     }
 
     @DeleteMapping("/{id}")

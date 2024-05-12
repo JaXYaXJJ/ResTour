@@ -4,10 +4,10 @@ Content-Type: application/json
 Authorization: Basic admin@admin.com Admin!123
 
 {
-  "title": "Admin test title",
-  "destination": "Admin test dest",
-  "description": "Admin test trip",
-  "tourRoute": "Admin test route",
+  "title": "MyTestLondon",
+  "destination": "London",
+  "description": "UK",
+  "tourRoute": "Route to London",
   "availableDate": "2023-08-22",
   "price": 1000
 }

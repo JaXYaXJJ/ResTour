@@ -9,7 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity(name = "comments")
-
 public class Comment {
 
     @Id
@@ -18,9 +17,7 @@ public class Comment {
     private String comment;
 
     @ManyToOne
-    @JoinColumn(
-            name = "user_id",
-            nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne

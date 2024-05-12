@@ -14,8 +14,8 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "users")
 @Builder
+@Entity(name = "users")
 public class User {
 
     @Id

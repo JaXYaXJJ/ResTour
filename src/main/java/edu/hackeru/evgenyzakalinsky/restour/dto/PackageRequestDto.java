@@ -1,12 +1,14 @@
 package edu.hackeru.evgenyzakalinsky.restour.dto;
 
 import edu.hackeru.evgenyzakalinsky.restour.validation.UniqueTitle;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.w3c.dom.Text;
 
 import java.sql.Date;
 
@@ -18,7 +20,6 @@ public class PackageRequestDto {
 
     @NotNull
     @Size(min = 2, max = 255)
-    @UniqueTitle
     private String title;
     @NotNull
     private String destination;
